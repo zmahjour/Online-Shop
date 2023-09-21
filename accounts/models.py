@@ -19,3 +19,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.full_name
 
+
+class Address(models.Model):
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    city = models.CharField(max_length=25)
+    address = models.TextField()
+    postal_code = models.IntegerField()
+    phone_number = models.CharField(max_length=11)
+
+    class Meta:
+        verbose_name = "address"
+        verbose_name_plural = "addresses"
+
+    def __str__(self):
+        return f"{self.city} - {self.address}"
