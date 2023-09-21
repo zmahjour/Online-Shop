@@ -26,3 +26,4 @@ class CustomUserAdmin(UserAdmin):
     filter_horizontal = []
 
 
+admin.site.register(Address)
