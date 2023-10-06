@@ -12,3 +12,5 @@ class UserLoginSerializer(serializers.Serializer):
     phone_number = serializers.CharField(required=True, allow_null=False)
 
 
+class UserVerificationSerializer(serializers.Serializer):
+    otp_code = serializers.IntegerField(required=True, allow_null=False)
