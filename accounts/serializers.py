@@ -7,3 +7,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ["phone_number", "full_name"]
 
+
+class UserLoginSerializer(serializers.Serializer):
+    phone_number = serializers.CharField(required=True, allow_null=False)
+
+
