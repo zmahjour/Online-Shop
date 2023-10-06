@@ -150,6 +150,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.User"
 
 
+# Rest framework
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "accounts.authentication.JWTAuthentication",
+    ]
+}
+
+
 # Custom JWT
 
 ACCESS_EXPIRE_TIME = timedelta(days=1)
