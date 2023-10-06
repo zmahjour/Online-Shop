@@ -139,3 +139,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AUTH_USER_MODEL = "accounts.User"
+
+
+# Custom JWT
+
+ACCESS_EXPIRE_TIME = timedelta(days=1)
+REFRESH_EXPIRE_TIME = timedelta(days=30)
