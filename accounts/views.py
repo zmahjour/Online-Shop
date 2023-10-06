@@ -46,3 +46,31 @@ class UserLoginView(APIView):
             return Response({"message": "Verification code has been sent to you."})
 
 
+class UserVerificationView(APIView):
+    authentication_classes = []
+
+    def post(self, request, *args, **kwargs):
+        serialized_data = UserVerificationSerializer(data=request.data)
+        if serialized_data.is_valid(raise_exception=True):
+            otp_code = serialized_data.validated_data.get("otp_code")
+            phone_number = request.session.get("phone_number")
+
+            if not cache.get(phone_number):
+                raise ValueError
+
+            if cache.get(phone_number) == otp_code:
+                user = User.objects.get(phone_number=phone_number)
+                jwt_token = JWTToken()
+                jti = jwt_token.jti
+                access_token = jwt_token.generate_access_token(user=user)
+                refresh_token = jwt_token.generate_refresh_token(user=user)
+                refresh_exp_seconds = settings.REFRESH_EXPIRE_TIME.total_seconds()
+
+                cache.set(key=jti, value="whitelist", timeout=refresh_exp_seconds)
+
+                return Response(
+                    data={
+                        "access_token": access_token,
+                        "refresh_token": refresh_token,
+                    }
+                )
